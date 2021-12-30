@@ -1,18 +1,25 @@
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Grid, Card, CardContent } from '@material-ui/core';
+import { Accordion, AccordionSummary, Typography, Grid, Divider } from '@material-ui/core';
 import React from 'react';
 
 export default function ChartView(props) {
 	return (
 		<Grid item xs={12}>
-			<Accordion variant="outlined" style={{ minHeight: '100%' }}>
-				<AccordionSummary>
-					<Typography>{props.title}</Typography>
-				</AccordionSummary>
+			<Accordion variant="outlined" style={{ minHeight: '100%', borderColor: 'transparent' }}>
+				<AccordionSummary>{props.data.children ? ' ' : <Typography> {props.title}</Typography>}</AccordionSummary>
+				<Divider />
 				{props.data.map((item) => (
-					<AccordionSummary style={{ minWidth: '100%' }}>
+					<AccordionSummary>
 						<Typography>
-							{item.children ? ' ' : item.name}
-							{item.children?.length && <ChartView title={item.name} data={item.children} />}
+							{item.children ? '' : <Typography>{item.name}</Typography>}
+							{item.children?.length && (
+								<Grid container spacing={2}>
+									<Grid item xs={12}>
+										<Divider />
+										<ChartView title={item.name} data={item.children} />
+										<Divider />
+									</Grid>
+								</Grid>
+							)}
 						</Typography>
 					</AccordionSummary>
 				))}
